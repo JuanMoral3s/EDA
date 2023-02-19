@@ -1,0 +1,73 @@
+/*
+
+Promedio + DevStandar + Calif a Letra
+
+*/
+
+#include <stdio.h>
+#include <math.h>
+#define TAM_MAX 5
+
+float promedio (float califs[]), devEstandar (float desvEstandar[], float media);
+float califLetra(float califs[],float media, float sigma);
+
+float promedio (float x[])
+{
+  float promedioSumado = 0, promedioTotal = 0;
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+      promedioSumado = promedioSumado + x[i];
+    }
+  promedioTotal = promedioSumado / TAM_MAX;
+  return promedioTotal;
+}
+
+float devEstandar (float y[], float w)
+{
+  float nMenos = 1, sumatoria = 0, desviacionEstandar = 0, mediaAritmetica =
+    0;
+  nMenos = nMenos / (TAM_MAX - 1);
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+      sumatoria = sumatoria + (pow ((y[i] - w), 2));
+    }
+  desviacionEstandar = sqrt (nMenos * sumatoria);
+  return desviacionEstandar;
+}
+
+int main ()
+{
+  float calificaciones[TAM_MAX];
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+      calificaciones[i] = i + 5;
+      /* printf("Ingrese la calificacion No.%d\n", i + 1);
+         scanf("%f", &calificaciones[i]); */
+    }
+  califLetra(calificaciones,promedio(calificaciones),devEstandar(calificaciones, promedio (calificaciones)));
+
+  return 0;
+}
+
+float califLetra(float a[],float b, float c){
+    
+    for(int i = 0; i < TAM_MAX; ++i){
+        if( a[i] <= b - ( 1.5 * c)){
+            printf("\n%f : F", a[i]);
+        }
+        if( a[i] >= b - ( 1.5 * c) && a[i] < b - (0.5 * c)){
+            printf("\n%f : D", a[i]);
+        }
+        if( a[i] >= b - ( 0.5 * c) && a[i] < b + (0.5 * c)){
+            printf("\n%f : C", a[i]);
+        }
+        if( a[i] >= b + ( 0.5 * c) && a[i] < b + (1.5 * c)){
+            printf("\n%f : B", a[i]);
+        }
+        if( a[i] >= b + ( 3.5 * c)){
+            printf("\n%f : A", a[i]);
+        }
+    }
+    
+}
+
