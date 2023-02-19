@@ -52,7 +52,7 @@ int main ()
 float califLetra(float a[],float b, float c){
     
     for(int i = 0; i < TAM_MAX; ++i){
-        if( a[i] <= b - ( 1.5 * c)){
+        if( a[i] < b - ( 1.5 * c)){
             printf("\n%f : F", a[i]);
         }
         if( a[i] >= b - ( 1.5 * c) && a[i] < b - (0.5 * c)){
