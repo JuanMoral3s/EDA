@@ -1,0 +1,43 @@
+/*
+
+Promedio + DevStandar
+
+*/
+
+#include <stdio.h>
+#include <math.h>
+#define TAM_MAX 5
+
+float promedio(float califs[]);
+float devEstandar(float desvEstandar[], float media);
+
+
+float promedio(float x[]){
+    float promedioSumado = 0, promedioTotal = 0;
+    for(int i = 0; i < TAM_MAX; ++i){
+        promedioSumado = promedioSumado + x[i];
+    }
+    promedioTotal = promedioSumado / TAM_MAX;
+    return promedioTotal;
+}
+int main()
+{
+    float calificaciones[TAM_MAX];
+    for(int i = 0; i < TAM_MAX; ++i){
+    printf("Ingrese la calificacion No.%d\n", i + 1);
+    scanf("%f", &calificaciones[i]);
+    }
+    devEstandar(calificaciones, promedio(calificaciones));
+    
+    return 0;
+}
+
+float devEstandar(float y[], float w){
+    float nMenos = 1, sumatoria = 0, desviacionEstandar = 0, mediaAritmetica = 0;
+    nMenos = nMenos / (TAM_MAX - 1);
+    for (int i = 0; i < TAM_MAX ; ++i){
+    sumatoria = sumatoria + (pow((y[i]- w),2));
+    }
+    desviacionEstandar = sqrt(nMenos * sumatoria);
+    return printf("%f", desviacionEstandar);
+}
