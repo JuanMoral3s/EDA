@@ -1,0 +1,70 @@
+/*
+
+Promedio + DevStandar + Calif a Letra
+
+*/
+
+#include <stdio.h>
+#include <math.h>
+#define TAM_MAX 5
+
+float promedio (float califs[]), devEstandar (float desvEstandar[], float media);
+float califLetra(float califs[],float media, float sigma);
+
+float promedio (float calificaciones[])
+{
+  float promedioSumado = 0, promedioTotal = 0;
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+      promedioSumado = promedioSumado + calificaciones[i];
+    }
+  promedioTotal = promedioSumado / TAM_MAX;
+  return promedioTotal;
+}
+
+float devEstandar (float calificaciones[], float media)
+{
+  float nMenos = 1, sumatoria = 0, desviacionEstandar = 0;
+  nMenos = nMenos / (TAM_MAX - 1);
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+      sumatoria = sumatoria + (pow ((calificaciones[i] - media), 2));
+    }
+  desviacionEstandar = sqrt (nMenos * sumatoria);
+  return desviacionEstandar;
+}
+
+int main ()
+{
+  float calificaciones[TAM_MAX];
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+      printf("Ingrese la calificacion No.%d\n", i + 1);
+         scanf("%f", &calificaciones[i]); 
+    }
+  califLetra(calificaciones,promedio(calificaciones),devEstandar(calificaciones, promedio (calificaciones)));
+
+  return 0;
+}
+
+float califLetra(float calificaciones[],float media, float sigma){
+    
+    for(int i = 0; i < TAM_MAX; ++i){
+        if( calificaciones[i] < media - ( 1.5 * sigma)){
+            printf("\n%f : F", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media - ( 1.5 * sigma) && calificaciones[i] < media - (0.5 * sigma)){
+            printf("\n%f : D", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media - ( 0.5 * sigma) && calificaciones[i] < media + (0.5 * sigma)){
+            printf("\n%f : C", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media + ( 0.5 * sigma) && calificaciones[i] < media + (1.5 * sigma)){
+            printf("\n%f : B", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media + ( 3.5 * sigma)){
+            printf("\n%f : A", calificaciones[i]);
+        }
+    }
+    
+}
