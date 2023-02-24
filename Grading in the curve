@@ -1,0 +1,76 @@
+/*
+
+Promedio + DevStandar + Calif a Letra
+
+*/
+
+#include <stdio.h>
+#include <math.h>
+#define TAM_MAX 5
+
+float promedio (float califs[], size_t elementos);
+float devEstandar (float desvEstandar[], float media, size_t elementos);
+float califLetra(float califs[],float media, float sigma, size_t elementos);
+
+float promedio (float calificaciones[], size_t elementos)
+{
+  float promedioSumado = 0, promedioTotal = 0;
+  for (int i = 0; i < elementos; ++i)
+    {
+      promedioSumado = promedioSumado + calificaciones[i];
+    }
+  promedioTotal = promedioSumado / elementos;
+  printf("\n%0.1f", promedioTotal);
+  return promedioTotal;
+}
+
+float devEstandar (float calificaciones[], float media, size_t elementos)
+{
+  float nMenos = 1, sumatoria = 0, desviacionEstandar = 0;
+  nMenos = nMenos / (elementos - 1);
+  for (int i = 0; i < elementos; ++i)
+    {
+      sumatoria = sumatoria + (pow ((calificaciones[i] - media), 2));
+    }
+  desviacionEstandar = sqrt (nMenos * sumatoria);
+  printf("%0.5f", desviacionEstandar);
+  return desviacionEstandar;
+}
+
+int main ()
+{
+    
+  float calificaciones[TAM_MAX];
+  for (int i = 0; i < TAM_MAX; ++i)
+    {
+        calificaciones[i] = i + 5; 
+     /* printf("Ingrese la calificacion No.%d\n", i + 1);
+         scanf("%f", &calificaciones[i]); */
+    }
+    size_t elements = TAM_MAX;
+  califLetra(calificaciones,promedio(calificaciones, elements),devEstandar(calificaciones, promedio (calificaciones, elements), elements), elements);
+
+  return 0;
+}
+
+float califLetra(float calificaciones[],float media, float sigma, size_t elementos){
+    
+    for(int i = 0; i < elementos; ++i){
+        if( calificaciones[i] < media - ( 1.5 * sigma)){
+            printf("\n%0.1f : F", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media - ( 1.5 * sigma) && calificaciones[i] < media - (0.5 * sigma)){
+            printf("\n%0.1f : D", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media - ( 0.5 * sigma) && calificaciones[i] < media + (0.5 * sigma)){
+            printf("\n%0.1f : C", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media + ( 0.5 * sigma) && calificaciones[i] < media + (1.5 * sigma)){
+            printf("\n%0.1f : B", calificaciones[i]);
+        }
+        if( calificaciones[i] >= media + ( 3.5 * sigma)){
+            printf("\n%0.1f : A", calificaciones[i]);
+        }
+    }
+    
+}
