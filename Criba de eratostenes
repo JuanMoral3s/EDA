@@ -1,0 +1,61 @@
+/*
+
+Criba de eratostenes
+
+*/
+
+#include <stdio.h>
+#include <math.h>
+
+
+int cribaDeEratostenes(int lista[], size_t n);
+
+int main()
+{
+
+ size_t n = 1000; 
+ int lista[n];
+ for(int i = 1 ; i < n; ++i){
+     lista[i - 1] = i + 1;
+ }
+    printf("\nEl total de numeros primos entre 1 y %lu es %d", n ,cribaDeEratostenes(lista,n));
+
+    return 0;
+}
+
+int cribaDeEratostenes(int lista[], size_t n)
+{
+    size_t primerNumeroCriba = lista[0], contadorDePrimos = 0;
+    for(int i = 1; i < n; i++)
+    {
+        if((lista[i] % primerNumeroCriba) == 0)
+        {
+        lista[i] = 0;
+        }
+    }
+   for(int i = 0; i < n; i++)
+   {
+       if(lista[i] > n)
+       {
+           lista[i] = 0;
+       }
+       if(lista[i] != 0)
+       {
+           contadorDePrimos++;
+           printf("\n%d.- %d", contadorDePrimos,lista[i]);
+       }
+       
+       if(pow(lista[i],2) <= n && pow(lista[i],2) != 0)
+       {
+       primerNumeroCriba = lista[i];
+       for(int i = 0; i < n; i++)
+       {
+        if((lista[i] % primerNumeroCriba) == 0)
+        {
+        lista[i] = 0;
+        }
+       }
+    }
+   }
+return contadorDePrimos;
+}
