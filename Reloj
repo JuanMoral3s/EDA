@@ -1,0 +1,130 @@
+
+
+#include <stdio.h>
+#include <stdbool.h>
+
+//                   Reloj.h
+typedef struct 
+{
+	int horas;
+	int minutos;
+	int segundos;
+} Reloj;
+
+
+//                   Reloj.c
+
+
+void Reloj_Imprime( const Reloj* this ) 
+{
+	printf( "%02d:%02d:%02d\n", this->horas, this->minutos,this->segundos );
+}
+
+// Funcion Poner
+void Reloj_Poner( Reloj* this, int horas, int minutos, int segundos )
+{
+	this->horas = horas;
+	this->minutos = minutos;
+	this->segundos = segundos;
+}
+
+// Funcion incremento
+void Reloj_Incrementar( Reloj* this )
+{
+    ++this->segundos;
+    if(this->segundos > 59){
+        this->segundos = 0;
+    
+	++this->minutos;
+	if( this->minutos > 59 )
+   {
+		this->minutos = 0;
+
+		++this->horas;
+		if( this->horas > 23 )
+      { 
+         this->horas = 0; 
+      }
+	}
+}
+}
+
+//Funciones Set
+
+void Reloj_Set_Horas(Reloj* this, int horas)
+{
+    this->horas = horas;
+}
+void Reloj_Set_Minutos(Reloj* this, int minutos)
+{
+    this->minutos = minutos;
+}
+void Reloj_Set_Segundos(Reloj* this, int segundos)
+{
+    this->segundos = segundos;
+}
+
+//Funcion Get
+
+int Reloj_Get_Horas(Reloj* this)
+{
+    return this->horas;
+}
+int Reloj_Get_Minutos(Reloj* this)
+{
+    return this->minutos;
+}
+
+int Reloj_Get_Segundos(Reloj* this)
+{
+    return this->segundos;
+}
+
+bool Reloj_Comparar(Reloj* this, Reloj* other)
+{
+    return ((this->horas == other->horas) 
+    && (this->minutos == other->minutos) 
+    && (this->segundos == other->segundos));
+}
+//                   main.c
+
+int main()
+{
+	Reloj casio;
+	Reloj swatch;
+    Reloj alarma;
+    Reloj alarma_Swatch;
+    
+    
+	Reloj_Poner( &casio, 12, 0,0);
+	printf( " Reloj 'casio' antes: " );
+	Reloj_Imprime( &casio );
+
+	Reloj_Poner( &swatch, 19, 30,0 );
+	printf( "Reloj 'swatch' antes: " );
+	Reloj_Imprime( &swatch );
+    
+    Reloj_Poner( &alarma, 12, 5, 0);
+    
+    Reloj_Poner( &alarma_Swatch, 19, 34, 30);
+   printf( "...\n" );
+	for( size_t i = 0; i < 900; ++i )
+   {    
+       if(Reloj_Comparar(&casio,&alarma)){
+           Reloj_Imprime(&casio);
+           printf(" HORA DE LEVANTARSE\n");
+       }
+        if(Reloj_Comparar(&swatch,&alarma_Swatch)){
+           Reloj_Imprime(&swatch);
+           printf(" HORA DE LEVANTARSE\n");
+       }
+		Reloj_Incrementar( &casio );
+		Reloj_Incrementar( &swatch );
+	}
+
+	printf( " Reloj 'casio' despuÃ©s: " );
+	Reloj_Imprime( &casio );
+
+	printf( "Reloj 'swatch' despuÃ©s: " );
+	Reloj_Imprime( &swatch );
+}
