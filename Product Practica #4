@@ -1,0 +1,100 @@
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#define MAX 32
+
+typedef struct
+
+{
+    unsigned int barcode;
+    char name[MAX];
+    float price;
+}Product;
+
+//Constructor
+void Product_Ctor(Product* this, int barcode, char* name, float price)
+    {
+        if(barcode>=100 && barcode<200)
+        {
+        this->barcode = barcode;
+        strncpy(this->name, name, MAX);
+        this->price = price;
+        }
+    }
+
+// Funciones Set
+void Product_Set_Barcode(Product* this, unsigned int barcode)
+{
+    this->barcode = barcode;
+}
+
+void Product_Set_Name(Product* this, char* name)
+{
+    strncpy(this->name, name, MAX);
+}
+
+void Product_Set_Price(Product* this, float price)
+{
+    this->price = price;   
+}    
+
+// Funciones Get
+
+const unsigned int Product_Get_Barcode( const Product* this)
+{
+    return this->barcode;
+}
+
+const char* Product_Get_Name( const Product* this)
+{
+    return this->name;
+}
+
+const float Product_Get_Price( const Product* this)
+{
+    return this->price;    
+}
+
+// Funcion Assign 
+
+void Product_Assign( Product* this, const Product* other )
+{
+    this->barcode = other->barcode;
+    strncpy( this->name, other->name, MAX);
+    this->price = other->price;
+}
+
+// Funcion Is_Equal
+
+bool Product_IsEqual( const Product* this, const Product* other )
+{
+    return( this->barcode == other->barcode && this->name == other->name && this->price == other->price );
+}
+
+bool Product_IsEqual_ByBarcode( const Product* this, const Product* other )
+{
+    return( this->barcode == other->barcode );
+}
+
+
+int main()
+{
+    Product gansito[3];
+    float precio = 0;
+    for(int i = 0; i < 3; ++i)
+    {
+        Product_Ctor( &gansito[i], 101+i, "GANSITO" , 30);
+    }
+   
+    scanf("%f", &precio);
+    Product_Set_Price( &gansito[1], precio);
+    for(int i = 0; i < 3; ++i)
+    {
+        printf("ProductoNo%d:\n Código de barras : %d\n", i + 1 ,Product_Get_Barcode( &gansito[i]));
+        printf("Nombre : %s\n", Product_Get_Name( &gansito[i]));
+        printf("Precio : %0.2f\n", Product_Get_Price( &gansito[i]));
+    }
+    
+return 0;
+}
