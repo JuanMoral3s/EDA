@@ -1,0 +1,153 @@
+// CODIGO DEL RELOJ
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+typedef struct 
+{
+	int horas;
+	int minutos;
+	int segundos;
+} Reloj;
+
+Reloj* Crear( size_t tam)
+{
+    
+Reloj* p = (Reloj*) malloc(tam * sizeof(Reloj));
+
+return p;
+
+}
+
+void Destruir( Reloj** p)
+{
+    free(*p);
+    *p = NULL;
+}
+void Reloj_Imprime( const Reloj* this ) 
+{
+	printf( "%02d:%02d:%02d\n", this->horas, this->minutos,this->segundos );
+}
+
+void Reloj_Poner( Reloj* this, int horas, int minutos, int segundos )
+{
+	this->horas = horas;
+	this->minutos = minutos;
+	this->segundos = segundos;
+}
+
+void Reloj_Incrementar( Reloj* this )
+{
+    ++this->segundos;
+    if(this->segundos > 59){
+        this->segundos = 0;
+    
+	++this->minutos;
+	if( this->minutos > 59 )
+   {
+		this->minutos = 0;
+
+		++this->horas;
+		if( this->horas > 23 )
+      { 
+         this->horas = 0; 
+      }
+	}
+}
+}
+
+
+void Reloj_Set_Horas(Reloj* this, int horas)
+{
+    this->horas = horas;
+}
+void Reloj_Set_Minutos(Reloj* this, int minutos)
+{
+    this->minutos = minutos;
+}
+void Reloj_Set_Segundos(Reloj* this, int segundos)
+{
+    this->segundos = segundos;
+}
+
+int Reloj_Get_Horas(Reloj* this)
+{
+    return this->horas;
+}
+int Reloj_Get_Minutos(Reloj* this)
+{
+    return this->minutos;
+}
+
+int Reloj_Get_Segundos(Reloj* this)
+{
+    return this->segundos;
+}
+
+bool Reloj_Comparar(Reloj* this, Reloj* other)
+{
+    return ((this->horas == other->horas) 
+    && (this->minutos == other->minutos) 
+    && (this->segundos == other->segundos));
+}
+
+Reloj* Reloj_New(int horas, int minutos, int segundos)
+{
+    
+    Reloj* r = (Reloj*) malloc(sizeof(Reloj));
+    Reloj_Poner( r , horas, minutos, segundos);
+    
+}
+
+Reloj* Reloj_Delete(Reloj** this)
+{
+    free ( *this );
+    this == NULL;
+}
+
+
+
+
+int main()
+{
+
+int hrs = 10, min = 45, seg= 34; 
+ 
+Reloj* casio = Reloj_New(12,03,05);
+if(NULL == casio)
+    {
+        printf("Error asignando memoria");
+        exit(1);
+    }
+    
+Reloj* swatch = Reloj_New(15,42,06);
+
+if(NULL == swatch)
+    {
+        printf("Error asignando memoria");
+        exit(1);
+    }
+    
+Reloj_Imprime(casio);
+Reloj_Imprime(swatch);
+
+Reloj_Set_Horas( casio , hrs );
+Reloj_Set_Minutos( casio, min);
+Reloj_Set_Segundos( casio, seg);
+
+Reloj_Set_Horas( swatch , hrs + 5 );
+Reloj_Set_Minutos( swatch, min + 5);
+Reloj_Set_Segundos( swatch, seg + 5);
+
+printf("%02d:%02d:%02d\n", Reloj_Get_Horas(casio),
+Reloj_Get_Minutos(casio),Reloj_Get_Segundos(casio));
+
+printf("%02d:%02d:%02d", Reloj_Get_Horas(swatch),
+Reloj_Get_Minutos(swatch),Reloj_Get_Segundos(swatch));
+
+    
+Reloj_Delete( &casio );
+Reloj_Delete( &swatch );
+
+
+}
