@@ -1,73 +1,72 @@
-/*
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
 
-Promedio + DevStandar + Calif a Letra
-
-*/
-
-#include <stdio.h>
-#include <math.h>
-#define TAM_MAX 5
-
-float promedio (float califs[]), devEstandar (float desvEstandar[], float media);
-float califLetra(float califs[],float media, float sigma);
-
-float promedio (float x[])
+typedef struct 
 {
-  float promedioSumado = 0, promedioTotal = 0;
-  for (int i = 0; i < TAM_MAX; ++i)
-    {
-      promedioSumado = promedioSumado + x[i];
-    }
-  promedioTotal = promedioSumado / TAM_MAX;
-  return promedioTotal;
-}
+    int Sp;
+    int Cap;
+    int* stack;
 
-float devEstandar (float y[], float w)
+}Stack;
+
+Stack* Stack_New(int n);
+void Stack_Delete(Stack** p_this);
+void Stack_Push(Stack* this, int Val);
+int Stack_Pop(Stack* this);
+int Stack_Peek(Stack* this);
+int Stack_IsFull(Stack* this);
+int Stack_IsEmpty(Stack* this);
+
+int main()
 {
-  float nMenos = 1, sumatoria = 0, desviacionEstandar = 0, mediaAritmetica =
-    0;
-  nMenos = nMenos / (TAM_MAX - 1);
-  for (int i = 0; i < TAM_MAX; ++i)
-    {
-      sumatoria = sumatoria + (pow ((y[i] - w), 2));
-    }
-  desviacionEstandar = sqrt (nMenos * sumatoria);
-  return desviacionEstandar;
+    return 0;
 }
 
-int main ()
-{
-  float calificaciones[TAM_MAX];
-  for (int i = 0; i < TAM_MAX; ++i)
-    {
-      calificaciones[i] = i + 5;
-      /* printf("Ingrese la calificacion No.%d\n", i + 1);
-         scanf("%f", &calificaciones[i]); */
-    }
-  califLetra(calificaciones,promedio(calificaciones),devEstandar(calificaciones, promedio (calificaciones)));
+Stack* Stack_New(int n){
 
-  return 0;
-}
+    Stack* S = (Stack*) malloc(sizeof(Stack));
+    if(S){
+        S -> Sp = 0;
+        S -> Cap = n;
+        S -> stack = (int *) malloc (n*sizeof(int));
 
-float califLetra(float a[],float b, float c){
-    
-    for(int i = 0; i < TAM_MAX; ++i){
-        if( a[i] < b - ( 1.5 * c)){
-            printf("\n%f : F", a[i]);
-        }
-        if( a[i] >= b - ( 1.5 * c) && a[i] < b - (0.5 * c)){
-            printf("\n%f : D", a[i]);
-        }
-        if( a[i] >= b - ( 0.5 * c) && a[i] < b + (0.5 * c)){
-            printf("\n%f : C", a[i]);
-        }
-        if( a[i] >= b + ( 0.5 * c) && a[i] < b + (1.5 * c)){
-            printf("\n%f : B", a[i]);
-        }
-        if( a[i] >= b + ( 3.5 * c)){
-            printf("\n%f : A", a[i]);
+        if(!S->stack){
+            free(S);
+            S = NULL;
         }
     }
-    
+    return S;
 }
 
+void Stack_Delete(Stack** p_this){
+    assert(*p_this);
+    free((*p_this)->stack);
+    free(*p_this);
+    *p_this = NULL;
+}
+
+void Stack_Push(Stack* this, int Val){
+    this->stack[this->Sp++]=Val;
+    ++this->Sp;
+}
+
+int Stack_Pop(Stack* this){
+    --this->Sp;
+    return this->stack[--this->Sp];
+}
+
+int Stack_Peek(Stack* this){
+    if(this->Sp == 0){
+        return -1;
+    }
+    return this->stack[this->Sp-1];
+}
+
+int Stack_IsFull(Stack* this){
+    return this->Sp == this->Cap;
+}
+
+int Stack_IsEmpty(Stack* this){
+    return this->Sp == 0;
+}
