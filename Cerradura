@@ -1,0 +1,133 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+#define TAM 5
+
+
+typedef struct 
+{
+    size_t sp;
+    size_t cap;
+    int* stack;
+
+}Stack;
+
+Stack* Stack_New(int n);
+void Stack_Delete(Stack** p_this);
+void Stack_Push(Stack* this, int Val);
+int Stack_Pop(Stack* this);
+int Stack_Peek(Stack* this);
+int Stack_IsFull(Stack* this);
+int Stack_IsEmpty(Stack* this);
+char Stack_From_Infix_To_Rpn(char* infix_Expr, char* rpn_expr);
+void Print_Structure(Stack* s);
+
+int main()
+{
+    char expresion[80] = " a+((b+c)-d*(e/f))\n";
+
+    Stack* expr = Stack_New(80);
+    
+    for( char* letra = expresion; *letra != '\0'; ++letra)
+    {
+        printf("%c", *letra);
+    }
+    
+    for( char* letra = expresion; *letra != '\0'; ++letra){
+        if( *letra == '('){
+            Stack_Push( expr, '(' );
+            Print_Structure(expr);
+        }
+        
+        if( *letra == ')'){
+            Stack_Pop(expr);
+            Print_Structure(expr);
+        }
+    }
+    
+    if(expr->sp == 0){
+        printf("\n Esta balanceado");
+    }
+    else{
+        printf("\n No esta balanceado");
+    }
+
+    Stack_Delete(&expr);
+   
+    return 0;
+}
+
+Stack* Stack_New(int n){
+
+    Stack* S = (Stack*) malloc(sizeof(Stack));
+    if(S){
+        S -> sp = 0;
+        S -> cap = n;
+        S -> stack = (int *) malloc (n*sizeof(int));
+
+        if(!S->stack){
+            free(S);
+            S = NULL;
+        }
+    }
+    return S;
+}
+
+void Stack_Delete(Stack** p_this){
+    assert(*p_this);
+    free((*p_this)->stack);
+    free(*p_this);
+    *p_this = NULL;
+}
+
+void Stack_Push(Stack* this, int val){
+    assert( this->sp < this->cap );
+    this->stack[this->sp]=val;
+    ++this->sp;
+    //fprintf( stderr, "Stack()::Top=%ld\n", this->sp);
+}
+
+int Stack_Pop(Stack* this){
+    assert( this->sp > 0 );
+    --this->sp;
+    //fprintf( stderr, "Stack()::Top=%ld\n", this->sp );
+    return this->stack[this->sp];
+}
+
+int Stack_Peek(Stack* this){
+    assert( this->sp > 0 );
+    return this->stack[this->sp-1];
+}
+
+int Stack_IsFull(Stack* this){
+    return this->sp == this->cap;
+}
+
+int Stack_IsEmpty(Stack* this){
+    return this->sp == 0;
+}
+
+void Print_Structure(Stack* s){
+    printf("\n Cap = %ld,  Sp = %ld , ", s->cap,s->sp);
+    
+    if(s -> sp == 0){
+        printf ("Pila vacía\n");
+    }
+    else
+    {
+        printf("[");
+     for(int i = 0; i < s->sp; ++i)
+     {
+        printf("%d", s->stack[ s -> sp - i - 1 ]);
+        if(i != s->sp-1){
+            printf(",");
+        }
+     }   
+        printf("]\n");
+    }
+
+}
+
+void from_infix_to_rpn(char* infix_expr, char* rpn_expr ){
+    
+}
