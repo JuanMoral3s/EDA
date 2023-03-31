@@ -1,0 +1,72 @@
+
+#include "CQueue.h"
+
+CQueue* CQueue_New( size_t capacity )
+{
+    CQueue* q = (CQueue*) malloc (sizeof(CQueue));
+    if(q){
+        q->front = 0;
+        q->back = 0;
+        q->len = capacity;
+        q->queue = (int*) malloc(capacity * sizeof(int));
+    }
+	return NULL;
+}
+
+void CQueue_Delete( CQueue** this )
+{
+    assert(*this);
+    free((*this)->queue);
+    free(*this);
+    *this = NULL;
+}
+
+void CQueue_Enqueue( CQueue* this, int val )
+{
+    this -> queue[this -> back] = val;
+    this -> back++;
+}
+
+int CQueue_Dequeue( CQueue* this )
+{
+    int tmp = this->queue[this->front];
+    this -> front++;
+    this -> front = this-> front % this->capacity;
+	return tmp;
+}
+
+int CQueue_Peek( CQueue* this )
+{
+    int tmp;
+    if(this->back = 0){
+        tmp = this -> capacity - 1; 
+    }
+    else{
+        tmp = this -> back - 1;
+    }
+    return this->queue[tmp];
+}
+
+bool CQueue_IsFull( CQueue* this )
+{
+    return this -> len == this -> capacity;
+}
+bool CQueue_IsEmpty( CQueue* this )
+{
+   return this -> front == this -> back && this -> front == 0;
+}
+
+size_t CQueue_Len( CQueue* this )
+{   
+   return this->len;
+}
+
+size_t CQueue_Capacity( CQueue* this )
+{
+   return this->capacity;
+}
+
+void CQueue_MakeEmpty( CQueue* this )
+{
+    this -> back = this -> front = 0; 
+}
