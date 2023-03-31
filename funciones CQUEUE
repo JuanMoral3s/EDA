@@ -7,10 +7,10 @@ CQueue* CQueue_New( size_t capacity )
     if(q){
         q->front = 0;
         q->back = 0;
-        q->len = capacity;
+        q->capacity = capacity; 
         q->queue = (int*) malloc(capacity * sizeof(int));
     }
-	return NULL;
+	return q;
 }
 
 void CQueue_Delete( CQueue** this )
